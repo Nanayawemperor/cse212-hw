@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 
@@ -22,16 +21,17 @@ public class TakingTurnsQueue
 
         var person = _queue.Dequeue();
 
-        // Infinite turns: re-enqueue without modifying turns
+        // Infinite turns (0 or negative): always re-enqueue unchanged
         if (person.Turns <= 0)
         {
             _queue.Enqueue(person);
         }
         else
         {
-            // Finite turns: decrement
+            // Finite turns: decrement first
             person.Turns--;
 
+            // Re-enqueue only if turns remain
             if (person.Turns > 0)
             {
                 _queue.Enqueue(person);
